@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>飞机大战-v3.1</title>
+    <style>
+        *{margin: 0; padding:0;border:0;}
+        html,body{background-color: #000}
+        li{
+            list-style: none;
+        }
+        #sky{
+            position: relative;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            text-align: center;
+            color:#fff;
+            width: 360px;
+            height: 640px;
+            margin:50px auto;
+            background: #fff url("image/bg.jpg") repeat-y;
+            background-size: cover;
+            background-position: 0 0;
+            overflow: hidden;
+        }
+        #sky.sky_bg0{
+            background: url("image/bg1.jpg") repeat-y;
+            animation:  bgMove 15s linear infinite  ;
+            -webkit-animation: bgMove 15s linear infinite
+        }
+        #sky.sky_bg1{
+            background: url("image/bg2.jpg") repeat-y;
+            animation:  bgMove 15s linear infinite  ;
+            -webkit-animation: bgMove 15s linear infinite
+        }
+        #sky.sky_bg2{
+            background: url("image/bg3.jpg") repeat-y;
+            animation:  bgMove 15s linear infinite  ;
+            -webkit-animation: bgMove 15s linear infinite
+        }
+        #sky.sky_bg3{
+            background: url("image/bg4.jpg") repeat-y;
+            animation:  bgMove 15s linear infinite  ;
+            -webkit-animation: bgMove 15s linear infinite
+        }
+
+        .title{
+            font-family: "Microsoft yahei", serif;
+            font-size: 32px;
+            font-weight: bold;
+            padding-top: 80px;
+            color: #000;
+            -webkit-animation: colorTwinkle 2s ease-in-out infinite alternate;
+            -moz-animation: colorTwinkle 2s ease-in-out infinite alternate;
+            animation: colorTwinkle 2s ease-in-out infinite alternate;
+             }
+        .degree{
+            width: 200px;
+            margin: 50px auto;;
+
+        }
+        .degree li{
+            padding: 10px;
+            margin-bottom: 50px;
+            cursor: pointer;
+            color: #fff;
+            border-radius: 20px;
+        }
+        .degree li:nth-child(1){
+            background-color: rgba(0,0,0,0.3);
+            border: 1px solid #999;
+        }
+        .degree li:nth-child(2){
+            background-color: rgba(0,0,0,0.5);
+            border: 1px solid #aaa;
+        }
+        .degree li:nth-child(3){
+            background-color: rgba(0,0,0,0.7);
+            border: 1px solid #ddd;
+        }
+        .degree li:nth-child(4){
+            background-color: rgba(0,0,0,0.9);
+            border: 1px solid #fff;
+        }
+        .degree li:hover{
+            background-color: #000;
+            color: #52FEFF;
+            border: 1px solid #52FEFF;
+            -webkit-animation: borderTwinkle 2s ease-in-out infinite alternate;
+            -moz-animation: borderTwinkle 2s ease-in-out infinite alternate;
+            animation: borderTwinkle 2s ease-in-out infinite alternate;
+        }
+        .army,.bullet,.enemy,.boom, .score,.over{position: absolute}
+        .tips{
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            position: absolute;
+            background-color: rgba(0,0,0,0.7);
+            width: 100%;
+            height: 40px;
+            line-height: 25px;
+            color: #fff;
+            text-shadow:  0 0 10px rgba(0,0,0,0.5);
+            z-index: 9999;
+            bottom:0;
+            left: 0;
+            cursor: pointer;
+            transition: all 1s;
+            padding: 0 50px;
+            font-size: 14px;
+            text-align: left;
+            overflow: hidden;
+        }
+        .tips h4{
+            font-size: 16px;
+            text-align: center;
+            line-height: 40px;
+        }
+        .tips:hover{
+            padding: 50px;
+            height: 75%;
+        }
+        .score{
+            top:10px;
+            left: 10px;
+            width: 100px;
+            line-height: 30px;
+            background-color: transparent;
+            text-align: left;
+            padding: 0 10px;
+            color: #e33100;
+            font-size: 18px;
+            z-index: 9999;
+        }
+        .over{
+            background-color: rgba(255,255,255,0.5);
+            width: 100%;
+            height: 100%;
+            color: #333;
+            text-shadow:  0 0 10px rgba(0,0,0,0.5);
+        }
+
+        .overTitle{
+           color: #e33100;
+            font-size: 42px;
+            text-align: center;
+            padding: 80px 0  50px 0;
+        }
+
+       .showScore{
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+           	padding: 20px 0 10px 0;
+
+        }
+       .scoreTxt{
+            text-align: center;
+            font-weight: bold;
+            padding: 5px;
+        }
+
+       .scoreTxt span{
+            font-size: 24px;
+            color: #e33100;
+            padding: 0 10px;
+        }
+
+         .scoreText{
+            text-align: center;
+            font-weight: bold;
+            padding: 5px;
+        }
+
+       .reStart{
+            position: absolute;
+            left: 50%;
+            bottom: 80px;
+            width: 200px;
+            padding: 10px;
+            margin-left: -100px;
+            text-align: center;
+
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 20px;
+           color: #e33100;
+            border:2px solid #e33100;
+            background-color: rgba(0,0,0,0.6);
+            -webkit-animation: borderTwinkle 2.5s ease-in-out infinite alternate;
+            -moz-animation: borderTwinkle 2.5s ease-in-out infinite alternate;
+            animation: borderTwinkle 2.5s ease-in-out infinite alternate;
+        }
+       .boss{
+           display: none;
+       }
+        .on .boss{
+            display: block;
+        }
+        .on .overTitle{
+            color: #52FEFF;
+            font-size: 42px;
+            text-align: center;
+            padding: 80px 0 20px 0;
+        }
+
+        .on .scoreTxt span{
+            font-size: 24px;
+            color: #52FEFF;
+            padding: 0 10px;
+        }
+       .on .reStart{
+           color: #52FEFF;
+           border:2px solid #52FEFF;
+           -webkit-animation: bluePulse 2.5s ease-in-out infinite alternate;
+           -moz-animation: bluePulse 2.5s ease-in-out infinite alternate;
+           animation: bluePulse 2.5s ease-in-out infinite alternate;
+        }
+
+        @-webkit-keyframes bluePulse {
+            from {   -webkit-box-shadow: 0 0 9px #333; }
+            50% {  -webkit-box-shadow: 0 0 18px #52FEFF; }
+            to {   -webkit-box-shadow: 0 0 9px #333; }
+        }
+
+        @keyframes borderTwinkle {
+            from {   -webkit-box-shadow: 0 0 20px #333; }
+            50% {   -webkit-box-shadow: 0 0 50px #e33100; }
+            to {   -webkit-box-shadow: 0 0 20px #333; }
+        }
+
+        @keyframes colorTwinkle {
+            from {
+                text-shadow: 0 0 10px #fff,
+                0 0 20px #fff,
+                0 0 30px #fff,
+                0 0 40px #e33100,
+                0 0 60px #e33100,
+                0 0 80px #e33100,
+                0 0 100px #e33100,
+                0 0 120px #e33100;
+            }
+            to {
+                text-shadow: 0 0 0 #fff,
+                0 0 10px #fff,
+                0 0 15px #fff,
+                0 0 20px #e33100,
+                0 0 30px #e33100,
+                0 0 40px #e33100,
+                0 0 50px #e33100,
+                0 0 60px #e33100;
+            }
+        }
+
+        @keyframes bgMove {
+            from { background-position: 0 0  }
+            to { background-position: 0 640px  }
+        }
+    </style>
+</head>
+<body>
+    <div id="sky"></div>
+    <script>
+        var oSky = document.getElementById('sky');
+        var count =[]; // 初始计分
+        init();
+       // 初始化界面
+        function init() {
+            //创建开始界面
+            oSky.className = "";
+            oSky.innerHTML = "";
+            var oTitle = document.createElement('div');
+            oTitle.className = 'title';
+            oTitle.innerHTML = "飞机大战 v3.0";
+            oSky.appendChild(oTitle);
+            var oTips = document.createElement('div');
+            oTips.className = 'tips';
+            oTips.innerHTML = "<h4>游戏规则</h4><div>1.  四种游戏模式 由上到下 难度加大</div><div>2. 选择不同模式进入不同场景地图， 敌军出现速度不同。敌军飞行速度随机。我军发射子弹的速度不同</div><div>2.  军功：<p>击毁1架战斗机计100分，</p><p>击毁1架护卫舰计400分，</p><p>击毁1架母舰计900分</p></div><div>3.  军衔：  <p>军功小于5000为列兵，</p><p>军功大于5000为少尉，</p><p>军功大于10000为少校，</p><p>军功大于50000为少将，</p><p>军功大于100000为上将</p></div>";
+
+            oSky.appendChild(oTips);
+            var oUl = document.createElement('ul');
+            oUl.className = 'degree';
+            oSky.appendChild(oUl);
+            var oLi, i;
+            var degreeTxt = ["丘陵模式", "森林模式", "城市模式", "地狱模式"];
+            for (i = 0; i < 4; i++) {
+                oL = document.createElement('li');
+                oL.innerHTML = degreeTxt[i];
+                oUl.appendChild(oL);
+                oL.index = i;
+                oL.onclick = function () {
+                    start(this.index)
+                }
+            }
+        }
+		 </script>
+</body>
+</html>
