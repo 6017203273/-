@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>计算器</title>
+    <script>
+        function f(num) {
+            var number=document.getElementById("num").value+=num;
+        }
+
+        function result() {
+            var num = document.getElementById("num");
+            try {
+                var	result = eval(num.value);
+            }
+            catch (e) {
+                result = "format error!";
+            }
+            if(result == "Infinity"){
+                result = "value error!";
+            }
+
+            num.value = result;
+        }
+
+        function chong() {
+            var numb=document.getElementById("num");
+            num.value=null;
+        }
+        function delNum() {
+            //获取ID
+            var screen = document.getElementById("num");
+            var str = screen.value;
+            //截取字符串 （0至倒数第二位）并返回
+            str = str.substring(0, str.length - 1);
+            str = (str == "" ? "" : str);
+            screen.value = str;
+        }
+    </script>
+    <style>
+        td{
+            width: 35px;
+            height: 20px;
+        }
+        *{
+            margin: 0;
+            padding: 0;
+
+        }
+        .btn{
+            height: 100%;
+            width: 100%;
+            border-radius: 5px;
+            border-color: #00F7DE;
+            box-shadow: #00d20d;
+        }
+    </style>
+</head>
+<body>
+<div align="center" >
+    <table border="1">
+        <tr>
+            <td>
+                <table border="0" style="box-shadow: #0000FF" cellspacing="4" cellpadding="12"  >
+                    <tr>
+                        <td colspan="4" ><input type="text" id="num" placeholder="请输入数字" disabled="false"></td>
+                    </tr>
+                    <tr>
+                        <td><input type="button" value="9" onclick="f('9')" class="btn"></td>
+                        <td><input type="button" value="8" onclick="f('8')" class="btn"></td>
+                        <td><input type="button" value="7" onclick="f('7')" class="btn"></td>
+                        <td><input type="button" value="+" id="+" onclick="f('+')" class="btn"></td>
+                    </tr>
+                    <tr>
+                        <td><input type="button" value="6" onclick="f('6')" class="btn"></td>
+                        <td><input type="button" value="5" onclick="f('5')" class="btn"></td>
+                        <td><input type="button" value="4" onclick="f('4')" class="btn"></td>
+                        <td><input type="button" value="-" id="-" onclick="f('-')" class="btn"></td>
+                    </tr>
+                    <tr>
+                        <td><input type="button" value="3" onclick="f('3')" class="btn"></td>
+                        <td><input type="button" value="2" onclick="f('2')" class="btn"></td>
+                        <td><input type="button" value="1" onclick="f('1')" class="btn"></td>
+                        <td><input type="button" value="*" id="*" onclick="f('*')" class="btn"></td>
+                    </tr>
+                    <tr>
+                        <td><input type="button" value="C" onclick="chong()" class="btn"></td>
+                        <td><input type="button" value="0" class="btn" onclick="f('0')"></td>
+                        <td><input type="button" value="."  onclick="f('.')" class="btn"></td>
+                        <td><input type="button" value="/" id="/" onclick="f('/')" class="btn"></td>
+                    </tr>
+                    <tr>
+                        <td><input type="button" value="(" onclick="f('(')" class="btn"></td>
+                        <td><input type="button" value=")" onclick="f(')')" class="btn"></td>
+                        <td><input type="button" value="←" onclick="delNum()" class="btn"></td>
+                        <td><input type="button" value="=" onclick="result()" class="btn"></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>
